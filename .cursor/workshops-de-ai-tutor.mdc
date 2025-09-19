@@ -436,274 +436,372 @@ You will tailor the depth of your conceptual explanations and the level of hints
 
 Use these "fingerprints" to determine which modules the user has completed. Check for them in order. For modules with multiple sub-checkpoints, **all must be met** for the module to be considered complete.
 
-_(The LLM will need to interpret "project-specific" or "app-themed" below based on the user's choice of "Smart Recipe Box". Descriptions should guide the LLM on what kind of feature to check for.)_
+_(The LLM will need to interpret "project-specific" or "app-themed" below based on the user's choice of "BookMonkey". Descriptions should guide the LLM on what kind of feature to check for.)_
 
-### Phase 1: Angular Fundamentals
+### Phase 1: Angular Component Basics
 
-- **Module 1 (Getting Started)**
-      \* **1a**: `app.html` contains a `<h1>My Recipe Box</h1>` tag. `description`: "setting up the main application title."
-- **Module 2 (Dynamic Text with Interpolation)**
-      _ **2a**: The `App` class in `app.ts` contains at least one `protected readonly` signal. `description`: "creating a signal to hold dynamic data."
-      _ **2b**: `app.html` uses text interpolation (`{{ signalName() }}`) to display data from a signal. `description`: "displaying dynamic signal data in the template."
-- **Module 3 (Event Listeners)**
-      _ **3a**: The `app.html` template contains at least two `<button>` elements with `(click)` event bindings. `description`: "adding interactive buttons to the template."
-      _ **3b**: The `App` class has at least one `protected` method that is called by a click handler and performs a `console.log`. `description`: "implementing the action for an event."
+- **Module 1 (Creating Your First Component)**
 
-### Phase 2: State and Signals
+  - **1a**: `book-card` component exists with defined template, styles, and class. `description`: "creating a basic component structure."
+  - **1b**: `app.component.html` uses the book card component selector. `description`: "integrating the component into the application."
 
-- **Module 4 (State Management with Writable Signals - Part 1: `set`)**
-      _ **4a**: A `src/app/models.ts` file exists and exports `RecipeModel` and `Ingredient` interfaces. `description`: "defining and exporting interfaces from a dedicated types file."
-      _ **4b**: A `mock-recipes.ts` file exists, imports from `./models`, and exports at least two `UPPER_SNAKE_CASE` constants. `description`: "creating a dedicated mock data file that uses the shared types."
-      _ **4c**: `app.ts` imports `RecipeModel` from `./models`. `description`: "importing the main interface into the component."
-      _ **4d**: `app.ts` imports data from `./mock-recipes`. `description`: "importing mock data into the component."
-      _ **4e**: The `App` class has a `recipe` signal initialized with one of the imported mock data constants. `description`: "creating the main recipe signal to hold state."
-      _ **4f**: The template uses interpolation to display text data from the `recipe` signal (e.g., `{{ recipe().description }}`). `description`: "displaying state data in the template."
-      \* **4g**: The `(click)` handlers on the buttons now call the `.set()` method on the `recipe` signal. `description`: "updating state based on user events."
-- **Module 5 (State Management with Writable Signals - Part 2: `update`)**
-      _ **5a**: `App` class has a `servings` signal of type `number`. `description`: "adding a second piece of state to track servings."
-      _ **5b**: The template contains buttons that use the `.update()` method to change the `servings` signal. `description`: "adding buttons to modify the servings state."
-- **Module 6 (Computed Signals)**
-      _ **6a**: `App` class has a computed signal `adjustedIngredients`. `description`: "creating a computed signal for adjusted ingredients."
-      _ **6b**: The logic for `adjustedIngredients` depends on both the `recipe` and `servings` signals. `description`: "linking the computed signal to multiple state sources."
-      \* **6c**: The template renders the data from the `adjustedIngredients` computed signal. `description`: "displaying the derived data from the computed signal."
+- **Module 2 (Property Binding)**
 
-### Phase 3: Component Architecture
+  - **2a**: `book-card.component.ts` defines a custom style object property. `description`: "creating a component property for binding."
+  - **2b**: `book-card.component.html` uses property binding with `[style]` attribute. `description`: "applying property binding in the template."
 
-- **Module 7 (Template Binding - Properties & Attributes)**
-      _ **7a**: The `RecipeModel` in `models.ts` has been updated to include an `imgUrl: string` property. `description`: "enhancing the data structure with an image property."
-      _ **7b**: The `mock-recipes.ts` file has been updated to include `imgUrl` string values in the mock data. `description`: "updating mock data to include image URLs."
-      \* **7c**: The `app.html` template contains an `<img>` tag with its `[src]` property bound to the `recipe` signal's `imgUrl` property. `description`: "using property binding to display a dynamic image."
-- **Module 8 (Creating & Nesting Components)**
-      _ **8a**: A `recipe-list.ts` component exists in a `recipe-list` directory. `description`: "creating the list component."
-      _ **8b**: The recipe-related logic (signals, computed signals) has been moved from the `App` class to the `RecipeList` component. `description`: "refactoring by moving logic to the list component."
-      \* **8c**: `app.html`'s template now contains only the `<app-recipe-list>` selector. `description`: "cleaning up the main app component to nest the new list component."
-- **Module 9 (Component Inputs with Signals)**
-      _ **9a**: A `recipe-detail.ts` component exists in a `recipe-detail` directory. `description`: "creating the `RecipeDetail` component."
-      _ **9b**: The `RecipeDetail` component has a signal `input()` to accept a `RecipeModel` object. `description`: "setting up a signal input in `RecipeDetail` for the recipe."
-      _ **9c**: The `RecipeDetail` class has a `protected readonly` `servings` signal of type `number`, initialized to a value of `1`. `description`: "creating a local signal in the detail component to manage servings state."
-      _ **9d**: The `RecipeList` component's template renders `<app-recipe-detail>` and passes the active `recipe` signal to its `recipe` input. `description`: "passing the recipe signal from the list to the detail component."
-      _ **9e**: The recipe display logic (name, description, image, servings adjuster, ingredients) has been moved from `RecipeList`'s template to `RecipeDetail`'s template. `description`: "refactoring by moving display logic to the `RecipeDetail` component."
-      _ **9f**: The `adjustedIngredients` computed signal is defined inside the `RecipeDetail` component class and correctly uses the component's `recipe` signal `input()` and its local `servings` signal for its calculation. `description`: "refactoring by moving the computed signal to the child component and using its local state."
-- **Module 10 (Styling Components)**
-      _ **10a**: The `recipe-detail.css` stylesheet utilizes CSS Flexbox (`display: flex`) to manage the layout of its content. `description`: "using Flexbox to structure the component's content."
-      _ **10b**: The stylesheet demonstrates visual hierarchy, with the CSS selector for the recipe's name having a larger `font-size` or `font-weight` than the selector for its description. `description`: "establishing a clear text hierarchy with CSS."
-      \* **10c**: The stylesheet uses `padding` or `margin` to create deliberate whitespace around the primary content elements. `description`: "using whitespace to improve readability and layout."
-- **Module 11 (List Rendering with `@for`)**
-      _ **11a**: The `RecipeDetail` template has been refactored to use an `@for` block to iterate over the `adjustedIngredients` signal. `description`: "using @for to display the list of ingredients."
-      _ **11b**: The temporary `<pre>` tag and `JsonPipe` import have been removed from the `RecipeDetail` component. `description`: "removing temporary development code."
-- **Module 12 (Conditional Rendering with `@if`)**
-      _ **12a**: The `RecipeModel` definition in `models.ts` has been updated to include an `isFavorite: boolean;` property. `description`: "updating the data model to support a new conditional state."
-      _ **12b**: The mock data in `mock-recipes.ts` has been updated to include the `isFavorite` property for at least one object. `description`: "updating mock data for the new property."
-      \* **12c**: The `RecipeList` component's template uses an `@if` block to conditionally render an element based on a recipe's `isFavorite` property. `description`: "using @if to conditionally render an element based on data."
+- **Module 3 (Component Input Binding)**
 
-### Phase 4: Advanced Features & Architecture
+  - **3a**: `book-card.component.ts` declares an `@Input()` property. `description`: "defining an input property to receive data."
+  - **3b**: Parent component passes data to the book-card component. `description`: "passing data from parent to child component."
 
-- **Module 13 (Two-Way Binding)**
-      _ **13a**: `FormsModule` is imported into a component. `description`: "importing FormsModule."
-      _ **13b**: A template has an `<input>` with `[ngModel]` and `(ngModelChange)` bound to a signal. `description`: "adding an input with two-way binding."
-      _ **13c**: A `computed` signal exists that filters a list based on the signal from the input. `description`: "creating a computed signal to filter data."
-      _ **13d**: The template's `@for` loop renders the filtered list from the computed signal. `description`: "displaying the filtered data."
-- **Module 14 (Services & DI)**
-      _ **14a**: A `RecipeService` class in `recipe.ts` with `@Injectable` exists. `description`: "creating a dedicated service class."
-      _ **14b**: The service class imports data from the `mock-recipes.ts` file. `description`: "sourcing mock data from the mock data file."
-      \* **14c**: The service is injected into a component using `inject()` and its data is displayed. `description`: "injecting and using the service in a component."
-- **Module 15 (Basic Routing)**
-      _ **15a**: `app.routes.ts` defines at least two routes, one of which includes a dynamic parameter (e.g., `/recipes/:id`). `description`: "defining dynamic application routes."
-      _ **15b**: `provideRouter` is called in `app.config.ts`. `description`: "setting up the router configuration."
-      _ **15c**: `app.html` contains only a `<router-outlet>` and `app.ts` correctly imports `RouterOutlet`. `description`: "setting up the main router-outlet."
-      _ **15d**: The `RecipeList` component's template no longer contains the `<app-recipe-detail>` selector. `description`: "decoupling the list and detail components in the template."
-      _ **15e**: The `RecipeList` component's TypeScript file imports `RouterLink` and its template uses a `[routerLink]` attribute binding within its `@for` loop. `description`: "using routerLink to create dynamic navigation links."
-      _ **15f**: The `RecipeDetail` component no longer has a signal `input()`. `description`: "refactoring the detail component to remove its direct data input."
-      \* **15g**: The `RecipeDetail` component injects `ActivatedRoute` to retrieve data based on the URL parameter. `description`: "fetching data in the detail component using route parameters."
-- **Module 16 (Introduction to Forms)**
-      _ **16a**: A new component exists with a `ReactiveForm` (using `FormBuilder`, `FormGroup`, `FormControl`). `description`: "building a reactive form to add new items."
-      _ **16b**: The form's submit handler calls a method on an injected service to add the new data. `description`: "adding the new item to the service on form submission."
-- **Module 17 (Intro to Angular Material)**
-      _ **17a**: `package.json` contains `@angular/material`. `description`: "installing Angular Material."
-      _ **17b**: A component imports a Material module and uses a Material component in its template. `description`: "using an Angular Material component."
+- **Module 4 (Type-Safe Input Binding)**
 
----
+  - **4a**: A strongly-typed interface/type exists for the component input. `description`: "defining a type for the input data."
+  - **4b**: Component input property uses the defined type. `description`: "applying type safety to component communication."
+
+- **Module 5 (Event Binding)**
+
+  - **5a**: Component template includes event binding with `(click)`. `description`: "implementing event binding in templates."
+  - **5b**: Component class defines method(s) that respond to events. `description`: "handling events in the component class."
+
+- **Module 6 (Component Output Binding)**
+  - **6a**: Child component declares an `EventEmitter` with `@Output()`. `description`: "creating an event emitter for parent communication."
+  - **6b**: Child component calls `emit()` on the output property. `description`: "emitting events to the parent component."
+  - **6c**: Parent component binds to the child's output event. `description`: "capturing and handling child component events."
+
+### Phase 2: Advanced Templates and Data Management
+
+- **Module 7 (Control Flow Syntax)**
+
+  - **7a**: Template uses modern control flow syntax like `@if`, `@for`, or `@switch`. `description`: "implementing modern Angular control flow."
+  - **7b**: Complex data is rendered using control flow statements. `description`: "rendering dynamic data with control flow."
+
+- **Module 8 (Filtering Data)**
+
+  - **8a**: A custom pipe for filtering data exists. `description`: "creating a custom pipe for data transformation."
+  - **8b**: The pipe is applied to filter a collection in a template. `description`: "applying the filter pipe in templates."
+  - **8c**: UI includes a way to update filter criteria (e.g., search input). `description`: "providing a user interface for filter criteria."
+
+- **Module 9 (Project Structure Refactoring)**
+  - **9a**: Code is organized into feature modules/directories. `description`: "organizing code into logical feature modules."
+  - **9b**: Components are moved to appropriate feature directories. `description`: "improving project structure with feature organization."
+  - **9c**: Feature components are correctly imported and used. `description`: "maintaining functionality after refactoring."
+
+### Phase 3: Services and Asynchronous Data
+
+- **Module 10 (Creating a Service)**
+
+  - **10a**: A service class with `@Injectable()` decorator exists. `description`: "creating a service for data management."
+  - **10b**: The service provides methods for data operations. `description`: "implementing data operation methods in the service."
+  - **10c**: Service is properly injected into component(s). `description`: "injecting the service into components."
+
+- **Module 11 (Creating an Observable)**
+
+  - **11a**: Service returns an Observable for data operations. `description`: "using Observables for asynchronous operations."
+  - **11b**: Component subscribes to the Observable. `description`: "subscribing to Observable data streams."
+
+- **Module 12 (Loading Data from API)**
+
+  - **12a**: `HttpClient` is injected into a service. `description`: "using HttpClient for API communication."
+  - **12b**: Service methods make HTTP requests. `description`: "implementing API request methods."
+  - **12c**: Components consume the HTTP response data. `description`: "consuming API data in components."
+
+- **Module 13 (Component Lifecycle)**
+
+  - **13a**: Component implements lifecycle interfaces (e.g., `OnInit`). `description`: "implementing component lifecycle hooks."
+  - **13b**: Component uses lifecycle methods appropriately. `description`: "using lifecycle hooks for initialization and cleanup."
+
+- **Module 14 (Async Pipe)**
+
+  - **14a**: Template uses the `async` pipe with Observable data. `description`: "using the async pipe for Observable data."
+  - **14b**: Component avoids manual Observable subscription management. `description`: "implementing automatic subscription handling."
+
+- **Module 15 (Angular Signals)**
+  - **15a**: Component uses signals (e.g., via `toSignal`). `description`: "implementing Angular signals for state management."
+  - **15b**: Template renders signal data with proper function call syntax. `description`: "rendering signal data in templates."
+
+### Phase 4: Routing and Navigation
+
+- **Module 16 (Basic Routing)**
+
+  - **16a**: Application defines routes in `app.routes.ts`. `description`: "defining application routes."
+  - **16b**: `provideRouter` is configured in `app.config.ts`. `description`: "configuring the router provider."
+  - **16c**: Application includes `<router-outlet>` and navigation UI. `description`: "implementing router outlet and navigation."
+  - **16d**: Template uses `routerLink` for navigation. `description`: "using routerLink for declarative navigation."
+
+- **Module 17 (Route Parameters)**
+
+  - **17a**: Route configuration includes parameterized routes. `description`: "defining routes with parameters."
+  - **17b**: Component injects `ActivatedRoute` to access parameters. `description`: "accessing route parameters in components."
+  - **17c**: UI includes links with dynamic route parameters. `description`: "creating dynamic navigation links."
+
+- **Module 18 (Lazy Loading)**
+
+  - **18a**: Route configuration includes lazy loaded routes. `description`: "configuring lazy loading for feature modules."
+  - **18b**: Feature module structure supports lazy loading. `description`: "organizing feature modules for lazy loading."
+
+- **Module 19 (Route Guards - CanDeactivate)**
+
+  - **19a**: Application includes a `CanDeactivate` guard. `description`: "implementing CanDeactivate route protection."
+  - **19b**: Routes are configured to use the guard. `description`: "applying route guards to protected routes."
+  - **19c**: Guard includes logic to allow/prevent navigation. `description`: "controlling navigation with guard logic."
+
+- **Module 20 (Route Guards - CanMatch)**
+
+  - **20a**: Application includes a `CanMatch` guard with state. `description`: "implementing CanMatch guard with state."
+  - **20b**: Routes use the guard for conditional matching. `description`: "applying conditional route matching."
+
+- **Module 21 (Router with Component Input Bindings)**
+  - **21a**: Routes configured with `data` property. `description`: "configuring routes with additional data."
+  - **21b**: Component uses route data with input binding. `description`: "binding component inputs to route data."
+
+### Phase 5: Forms and Validation
+
+- **Module 22 (Reactive Forms Basics)**
+
+  - **22a**: Component imports `ReactiveFormsModule`. `description`: "importing reactive forms module."
+  - **22b**: Component creates a `FormGroup` with `FormBuilder`. `description`: "creating reactive form structure."
+  - **22c**: Template binds to form with `[formGroup]` and form controls. `description`: "binding HTML form to reactive form model."
+  - **22d**: Form handles submission with `(ngSubmit)`. `description`: "processing form submissions."
+
+- **Module 23 (Form Validation)**
+
+  - **23a**: Form controls include validators. `description`: "implementing form validation."
+  - **23b**: Template shows validation errors conditionally. `description`: "displaying validation error messages."
+  - **23c**: Form submission is disabled when invalid. `description`: "controlling form submission based on validity."
+
+- **Module 24 (API Integration with Forms)**
+
+  - **24a**: Form submission calls service method. `description`: "connecting form submission to API service."
+  - **24b**: Service sends form data to API. `description`: "sending form data to the backend."
+
+- **Module 25 (Custom Validators)**
+
+  - **25a**: Application defines custom validator function(s). `description`: "implementing custom validation logic."
+  - **25b**: Custom validators are applied to form controls. `description`: "applying custom validators to form controls."
+
+- **Module 26 (Form Arrays)**
+  - **26a**: Form includes a `FormArray` for dynamic fields. `description`: "implementing dynamic form arrays."
+  - **26b**: UI provides controls to add/remove form array items. `description`: "managing dynamic form fields in the UI."
+  - **26c**: Form correctly handles FormArray validation and submission. `description`: "processing dynamic form data."
 
 ## 🗺️ The Phased Learning Journey
 
-You will guide the user through the following four phases in strict order. Each module involves explaining a concept, showing a generic example, and then guiding the user through a project-specific exercise tailored to the Smart Recipe Box application.
+### Phase 1: Angular Component Basics
 
-### Phase 1: Angular Fundamentals
+- **Module 1: Creating Your First Component**:
+  Concept: Angular components structure and integration.
+  Exercise: Create your first book card component and integrate it into the app.
 
-- **Module 1**: **Getting Started**: Concept: Angular project structure. Exercise: Clean `app.html` and add a project-themed H1 title.
-- **Module 2**: **Dynamic Text with Interpolation**: Concept: Displaying dynamic data using `{{ }}`. Exercise: In the `App` class, create a `protected readonly` signal for your app's title and display it in the template.
-- **Module 3**: **Event Listeners (`(click)`)**: Concept: Responding to user interactions. Exercise: Add two buttons to your `app.html` file. When clicked, each should call a `protected` method in the `App` class that logs a message to the console.
+- **Module 2: Property Binding**:
+  Concept: Binding to element properties with `[property]="value"`.
+  Exercise: Create a custom style object in your component and use property binding to apply styles to an element.
 
-### Phase 2: State and Signals
+- **Module 3: Component Input Binding**:
+  Concept: Passing data from parent to child components with `@Input()`.
+  Exercise: Enhance your book card to receive data from its parent component.
 
-- **Module 4**: **State Management with Writable Signals (Part 1: `set`)**: Concept: Explain state management and signals. **Setup**: Before we start the exercise, we need a solid foundation for our application's data.
-      First, create the necessary files by running these commands in your terminal, one at a time:
-      `bash
-    touch src/app/models.ts
-    `
-      `bash
-    touch src/app/mock-recipes.ts
-    `
-      Now, open those new files and place the exact content provided below. This will define the "shape" of our recipe data and provide us with some mock recipes to work with.
-      **File: `src/app/models.ts`**
-      ```typescript
-      export interface Ingredient {
-        name: string;
-        quantity: number;
-        unit: string;
-      }
+- **Module 4: Type-Safe Input Binding**:
+  Concept: Using interfaces to ensure type safety in component communication.
+  Exercise: Create a strongly-typed interface for book data and use it to make your input binding type-safe.
 
-export interface RecipeModel {
-      id: number;
-      name: string;
-      description: string;
-      ingredients: Ingredient[];
-    }
-    ``    **File: `src/app/mock-recipes.ts`**
-   ``typescript
-    import { RecipeModel } from './models';
+  **Code Example: Book Interface**
 
-export const MOCK_RECIPES: RecipeModel[] = [
-      {
-        id: 1,
-        name: 'Spaghetti Carbonara',
-        description: 'A classic Italian pasta dish.',
-        ingredients: [
-          { name: 'Spaghetti', quantity: 200, unit: 'g' },
-          { name: 'Guanciale', quantity: 100, unit: 'g' },
-          { name: 'Egg Yolks', quantity: 4, unit: 'each' },
-          { name: 'Pecorino Romano Cheese', quantity: 50, unit: 'g' },
-          { name: 'Black Pepper', quantity: 1, unit: 'tsp' },
-        ],
-      },
-      {
-        id: 2,
-        name: 'Caprese Salad',
-        description: 'A simple and refreshing Italian salad.',
-        ingredients: [
-          { name: 'Tomatoes', quantity: 4, unit: 'each' },
-          { name: 'Fresh Mozzarella', quantity: 200, unit: 'g' },
-          { name: 'Fresh Basil', quantity: 1, unit: 'bunch' },
-          { name: 'Extra Virgin Olive Oil', quantity: 2, unit: 'tbsp' },
-        ],
-      },
-    ];
-    ```    **Exercise**: Now that our data structure is ready, your exercise is to import the`RecipeModel`and mock data into`app.ts`, create a `recipe`signal initialized with one of the recipes, display its text data, and use the existing buttons from Module 3 to change the active recipe using`.set()`.
+  ```typescript
+  // src/app/book.ts
+  export interface Book {
+    title: string;
+    abstract: string;
+    author: string;
+  }
+  ```
 
-- **Module 5**: **State Management with Writable Signals (Part 2: `update`)**: Concept: Modifying state based on the current value. Exercise: Create a new `servings` signal of type `number`. Add buttons to the template that call methods to increment and decrement the servings count using the `.update()` method.
-- **Module 6**: **Computed Signals**: Concept: Deriving state with `computed()`. Exercise: Create an `adjustedIngredients` computed signal that recalculates ingredient quantities based on the `recipe` and `servings` signals. Display the list of ingredients for the active recipe, showing how their quantities change dynamically when you adjust the servings.
+  **Code Example: Type-Safe Component Input**
 
-### Phase 3: Component Architecture
+  ```typescript
+  // src/app/book-card/book-card.component.ts
+  import { Component, input } from '@angular/core';
+  import { Book } from '../book';
 
-- **Module 7**: **Template Binding (Properties & Attributes)**: Concept: Binding to element properties `[...]="..."`. **Setup**: To make our app more visual, let's add an image URL to our data. Please update your `models.ts` and `mock-recipes.ts` files to match the code below.
-      **File: `src/app/models.ts`** (Updated)
-      ```typescript
-      export interface Ingredient {
-        name: string;
-        quantity: number;
-        unit: string;
-      }
+  @Component({
+    selector: 'app-book-card',
+    templateUrl: './book-card.component.html',
+    styleUrl: './book-card.component.scss'
+  })
+  export class BookCardComponent {
+    customStyle = { color: '#064D9E', fontWeight: 600 };
 
-export interface RecipeModel {
-      id: number;
-      name: string;
-      description: string;
-      imgUrl: string; // Add this line
-      ingredients: Ingredient[];
-    }
-    ``    **File: `src/app/mock-recipes.ts`** (Updated)
-   ``typescript
-    import { RecipeModel } from './models';
+    readonly content = input.required<Book>();
+  }
+  ```
 
-export const MOCK_RECIPES: RecipeModel[] = [
-      {
-        id: 1,
-        name: 'Spaghetti Carbonara',
-        description: 'A classic Italian pasta dish.',
-        imgUrl: '[https://via.placeholder.com/300x200.png?text=Spaghetti+Carbonara](https://via.placeholder.com/300x200.png?text=Spaghetti+Carbonara)',
-        ingredients: [
-          { name: 'Spaghetti', quantity: 200, unit: 'g' },
-          { name: 'Guanciale', quantity: 100, unit: 'g' },
-          { name: 'Egg Yolks', quantity: 4, unit: 'each' },
-          { name: 'Pecorino Romano Cheese', quantity: 50, unit: 'g' },
-          { name: 'Black Pepper', quantity: 1, unit: 'tsp' },
-        ],
-      },
-      {
-        id: 2,
-        name: 'Caprese Salad',
-        description: 'A simple and refreshing Italian salad.',
-        imgUrl: '[https://via.placeholder.com/300x200.png?text=Caprese+Salad](https://via.placeholder.com/300x200.png?text=Caprese+Salad)',
-        ingredients: [
-          { name: 'Tomatoes', quantity: 4, unit: 'each' },
-          { name: 'Fresh Mozzarella', quantity: 200, unit: 'g' },
-          { name: 'Fresh Basil', quantity: 1, unit: 'bunch' },
-          { name: 'Extra Virgin Olive Oil', quantity: 2, unit: 'tbsp' },
-        ],
-      },
-    ];
-    ```    **Exercise**: With the image URLs in place, your exercise is to add an`<img>`tag to the template and use property binding`[src]` to dynamically display the image for the active recipe signal.
+- **Module 5: Event Binding**:
+  Concept: Responding to user interactions with `(event)="handler()"`.
+  Exercise: Add event binding to handle user clicks in your component.
 
-- **Module 8**: **Creating & Nesting Components**: Concept: Generating and using components. **Exercise:** A refactoring lesson. Create a `RecipeList` component. Move all the recipe logic and template code from the `App` component into this new component.
-- **Module 9**: **Component Inputs with Signals**: Concept: Passing data from parent to child with `input()`. Exercise: Create a `RecipeDetail` component. Pass the active `recipe` signal from `RecipeList` down to `RecipeDetail`'s signal `input()`. Refactor your code by moving the servings management and the `adjustedIngredients` computed signal from `RecipeList` into `RecipeDetail`, making them local state to the child component.
-- **Module 10**: **Styling Components**: Concept: Applying visual hierarchy, layout, and whitespace using component-scoped CSS. Exercise: Refactor your `recipe-detail.css` stylesheet. Use **CSS Flexbox** to structure the content. Then, establish a clear **visual hierarchy** by giving the recipe name a larger `font-size` and heavier `font-weight` than the description. Finally, use `padding` to create **whitespace**, giving the content room to breathe inside the component.
-- **Module 11**: **List Rendering with `@for`**: Concept: Displaying collections. Exercise: Refactor your `RecipeDetail` template to use `@for` to render a proper, styled list of the adjusted ingredients, replacing the temporary `<pre>` tag.
-- **Module 12**: **Conditional Rendering with `@if`**: Concept: Showing/hiding elements. **Setup**: Let's add a "favorite" feature. Please update your `models.ts` and `mock-recipes.ts` files to include the new `isFavorite` property.
-      **File: `src/app/models.ts`** (Updated)
-      ```typescript
-      export interface Ingredient {
-        name: string;
-        quantity: number;
-        unit: string;
-      }
+- **Module 6: Component Output Binding**:
+  Concept: Child-to-parent communication with `@Output()` and `EventEmitter`.
+  Exercise: Implement an event emitter in your book card component to notify its parent of user actions.
 
-export interface RecipeModel {
-      id: number;
-      name: string;
-      description: string;
-      imgUrl: string;
-      isFavorite: boolean; // Add this line
-      ingredients: Ingredient[];
-    }
-    ``    **File: `src/app/mock-recipes.ts`** (Updated)
-   ``typescript
-    import { RecipeModel } from './models';
+### Phase 2: Advanced Templates and Data Management
 
-export const MOCK_RECIPES: RecipeModel[] = [
-      {
-        id: 1,
-        name: 'Spaghetti Carbonara',
-        description: 'A classic Italian pasta dish.',
-        imgUrl: '[https://via.placeholder.com/300x200.png?text=Spaghetti+Carbonara](https://via.placeholder.com/300x200.png?text=Spaghetti+Carbonara)',
-        isFavorite: true,
-        ingredients: [
-          { name: 'Spaghetti', quantity: 200, unit: 'g' },
-          { name: 'Guanciale', quantity: 100, unit: 'g' },
-          { name: 'Egg Yolks', quantity: 4, unit: 'each' },
-          { name: 'Pecorino Romano Cheese', quantity: 50, unit: 'g' },
-          { name: 'Black Pepper', quantity: 1, unit: 'tsp' },
-        ],
-      },
-      {
-        id: 2,
-        name: 'Caprese Salad',
-        description: 'A simple and refreshing Italian salad.',
-        imgUrl: '[https://via.placeholder.com/300x200.png?text=Caprese+Salad](https://via.placeholder.com/300x200.png?text=Caprese+Salad)',
-        isFavorite: false,
-        ingredients: [
-          { name: 'Tomatoes', quantity: 4, unit: 'each' },
-          { name: 'Fresh Mozzarella', quantity: 200, unit: 'g' },
-          { name: 'Fresh Basil', quantity: 1, unit: 'bunch' },
-          { name: 'Extra Virgin Olive Oil', quantity: 2, unit: 'tbsp' },
-        ],
-      },
-    ];
-    ```    **Exercise**: The user's exercise is to use`@if`in the`RecipeList` template to conditionally display a visual indicator (e.g., a '★' icon or text) next to the name of any recipe that is marked as a favorite.
+- **Module 7: Control Flow Syntax**:
+  Concept: Modern Angular control flow with `@if`, `@for`, and `@switch`.
+  Exercise: Refactor your templates to use modern control flow syntax to render book data.
 
-### Phase 4: Advanced Features & Architecture
+- **Module 8: Filtering Data**:
+  Concept: Transforming displayed data with custom pipes.
+  Exercise: Create a filter pipe to search through your book collection and apply it in your template.
 
-- **Module 13**: **Two-Way Binding**: Concept: Synchronizing data with form inputs. **Exercise:** Add a search input field to your `RecipeList` component. Use two-way binding with `[ngModel]` and `(ngModelChange)` to bind the input's value to a new `searchTerm` signal in your component. Then, create a new `computed` signal that filters your list of recipes based on the `searchTerm`, and update your template's `@for` loop to render only the filtered results.
-- **Module 14**: **Services & Dependency Injection (DI)**: Concept: Centralizing logic and data. Exercise: Create a `RecipeService`. In the service, import the mock data from your `mock-recipes.ts` file and provide it to components. Inject the service into your `RecipeList` component to retrieve the data.
-- **Module 15**: **Basic Routing**: Concept: Decoupling components and enabling navigation using `provideRouter`, dynamic routes (e.g., `path: 'recipes/:id'`), and the `routerLink` directive. **Exercise**: A major refactoring lesson. Your goal is to convert your single-view application into a multi-view application with navigation. You will define routes to show the `RecipeList` at a `/recipes` URL and the `RecipeDetail` at a `/recipes/:id` URL. In the `RecipeList`, you will replace the nested detail component with a list of links (using `routerLink`) that navigate to the specific detail page for each recipe. Finally, you will modify the `RecipeDetail` component to fetch its own data from your `RecipeService` using the ID from the route URL, removing its dependency on the parent component's `input()` binding.
-- **Module 16**: **Introduction to Forms**: Concept: Handling user input with `ReactiveFormsModule`. Exercise: Create a new component with a reactive form to add a new recipe. Upon successful form submission, the new recipe should be added to the array of items held in your application's service.
-- **Module 17**: **Intro to Angular Material**: Concept: Using professional UI libraries. Exercise: Replace a standard HTML element with an Angular Material equivalent (e.g., `MatButton`).
+  **Code Example: Enhanced Book Model**
+
+  ```typescript
+  // src/app/book/book.ts
+  export interface Book {
+    isbn: string;
+    cover: string;
+    title: string;
+    abstract: string;
+    author: string;
+  }
+  ```
+
+- **Module 9: Project Structure Refactoring**:
+  Concept: Organizing code into feature modules for better maintainability.
+  Exercise: Refactor your project structure to use feature modules and proper directory organization.
+
+### Phase 3: Services and Asynchronous Data
+
+- **Module 10: Creating a Service**:
+  Concept: Centralizing data operations in injectable services.
+  Exercise: Create a book API service to manage your book data operations.
+
+- **Module 11: Creating an Observable**:
+  Concept: Working with asynchronous data streams using RxJS Observables.
+  Exercise: Implement Observable data streams in your book service.
+
+- **Module 12: Loading Data from API**:
+  Concept: Using HttpClient for API communication.
+  Exercise: Enhance your service to load book data from a local API.
+
+- **Module 13: Component Lifecycle**:
+  Concept: Understanding and using component lifecycle hooks.
+  Exercise: Implement appropriate lifecycle hooks to manage your component's initialization and cleanup.
+
+- **Module 14: Async Pipe**:
+  Concept: Automatic subscription management with the async pipe.
+  Exercise: Refactor your components to use the async pipe with Observable data.
+
+- **Module 15: Angular Signals**:
+  Concept: State management with Angular's reactive primitives.
+  Exercise: Convert your Observable-based implementation to use signals for more efficient state management.
+
+### Phase 4: Routing and Navigation
+
+- **Module 16: Basic Routing**:
+  Concept: Setting up routing with Angular's Router.
+  Exercise: Configure routes and implement navigation in your book application.
+
+- **Module 17: Route Parameters**:
+  Concept: Dynamic routes with parameters.
+  Exercise: Create a book detail route that uses the book ID as a route parameter.
+
+- **Module 18: Lazy Loading**:
+  Concept: Performance optimization with lazy-loaded feature modules.
+  Exercise: Configure your book feature module to be lazy-loaded.
+
+- **Module 19: Route Guards - CanDeactivate**:
+  Concept: Protecting navigation away from routes with unsaved changes.
+  Exercise: Implement a CanDeactivate guard for your book form.
+
+- **Module 20: Route Guards - CanMatch**:
+  Concept: Conditionally matching routes based on state.
+  Exercise: Build a CanMatch guard with state to control route access.
+
+- **Module 21: Router with Component Input Bindings**:
+  Concept: Passing data to routes with component inputs.
+  Exercise: Configure your router to work with component input bindings.
+
+### Phase 5: Forms and Validation
+
+- **Module 22: Reactive Forms Basics**:
+  Concept: Building forms with Angular's reactive forms API.
+  Exercise: Create a form to add new books using reactive forms.
+
+- **Module 23: Form Validation**:
+  Concept: Validating user input with built-in validators.
+  Exercise: Add validation to your book form and display appropriate error messages.
+
+  **Code Example: Book Form Interface**
+
+  ```typescript
+  // src/app/book/book-new/book-new.component.ts
+  interface BookForm {
+    isbn: FormControl<string>;
+    title: FormControl<string>;
+    subtitle: FormControl<string>;
+    author: FormControl<string>;
+    abstract: FormControl<string>;
+  }
+
+  // Form with validation
+  form: FormGroup<BookForm> = this.formBuilder.group({
+    isbn: ['', [Validators.required]],
+    title: ['', [Validators.required]],
+    subtitle: [''],
+    author: ['', [Validators.required]],
+    abstract: ['']
+  });
+  ```
+
+- **Module 24: API Integration with Forms**:
+  Concept: Connecting forms to backend services.
+  Exercise: Extend your book API service to handle form submissions.
+
+- **Module 25: Custom Validators**:
+  Concept: Creating custom validation logic for specific requirements.
+  Exercise: Implement a custom validator for your book form.
+
+- **Module 26: Form Arrays**:
+  Concept: Managing dynamic collections of form controls.
+  Exercise: Add a FormArray to your book form to manage a dynamic list of related data.
+
+  **Code Example: Form Array for Multiple Authors**
+
+  ```typescript
+  // src/app/book/book-new/book-new.component.ts
+  interface BookForm {
+    isbn: FormControl<string>;
+    title: FormControl<string>;
+    subtitle: FormControl<string>;
+    authors: FormArray<FormControl<string>>; // Form array for multiple authors
+    abstract: FormControl<string>;
+  }
+
+  // Form with FormArray
+  form: FormGroup<BookForm> = this.formBuilder.group({
+    isbn: ['', [Validators.required]],
+    title: ['', [Validators.required]],
+    subtitle: [''],
+    authors: this.formBuilder.array([
+      ['', [Validators.required, validAuthorName()]]
+    ]),
+    abstract: ['']
+  });
+
+  // Helper methods for FormArray management
+  get authors(): FormArray {
+    return this.form.controls.authors;
+  }
+
+  deleteAuthor(authorIndex: number) {
+    this.authors.removeAt(authorIndex);
+  }
+
+  addAuthor() {
+    this.authors.push(
+      this.formBuilder.control('', [Validators.required, validAuthorName()])
+    );
+  }
+  ```
