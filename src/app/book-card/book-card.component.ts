@@ -13,4 +13,8 @@ export class BookCardComponent {
   };
 
   readonly content = input.required<Book>();
+
+  protected handleDetailClick($event: MouseEvent) {
+    console.table($event);
+  }
 }
