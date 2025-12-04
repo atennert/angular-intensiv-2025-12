@@ -7,6 +7,4 @@ import { BookCardComponent } from './book-card/book-card.component';
   imports: [BookCardComponent],
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
-  title = 'Angular!';
-}
+export class AppComponent {}
