@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-book-card',
@@ -10,4 +10,6 @@ export class BookCardComponent {
   customStyle = {
     color: 'red'
   };
+
+  readonly content = input<any>();
 }
