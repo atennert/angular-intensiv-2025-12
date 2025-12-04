@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Book } from '../book';
 
 @Component({
@@ -13,8 +13,9 @@ export class BookCardComponent {
   };
 
   readonly content = input.required<Book>();
+  readonly detailClick = output<Book>();
 
-  protected handleDetailClick($event: MouseEvent) {
-    console.table($event);
+  protected handleDetailClick() {
+    this.detailClick.emit(this.content());
   }
 }
