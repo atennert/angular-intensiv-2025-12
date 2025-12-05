@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Book } from '../book';
 import { BookCardComponent } from '../book-card/book-card.component';
 import { BookFilterPipe } from '../book-filter/book-filter.pipe';
 import { BookApiService } from '../book-api.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-book',
@@ -10,10 +11,23 @@ import { BookApiService } from '../book-api.service';
   templateUrl: './book.component.html',
   styleUrl: './book.component.scss'
 })
-export class BookComponent {
+export class BookComponent implements OnInit {
   private readonly bookApi = inject(BookApiService);
-  books = this.bookApi.getAll();
+  readonly books$ = this.bookApi.getAll$().pipe(takeUntilDestroyed());
+
+  books: Book[] = [];
   bookSearchTerm = '';
+
+  ngOnInit() {
+    this.books$.subscribe({
+      next: (books: Book[]) => (this.books = books),
+      error: err => {
+        if (err instanceof Error) {
+          console.error(err.message);
+        }
+      }
+    });
+  }
 
   protected goToBookDetails(book: Book) {
     console.log('Navigate to book details');
