@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { Book } from '../book';
 
 @Component({
@@ -14,6 +14,8 @@ export class BookCardComponent {
 
   readonly content = input.required<Book>();
   readonly detailClick = output<Book>();
+
+  readonly title = computed(() => this.content().title.toUpperCase());
 
   protected handleDetailClick() {
     this.detailClick.emit(this.content());

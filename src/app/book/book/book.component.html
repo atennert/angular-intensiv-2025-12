@@ -1,10 +1,10 @@
 <input type="text" (input)="updateBookSearchTerm($event)" placeholder="Search for a book..."/>
 
-@let books = books$ | async | bookFilter: bookSearchTerm;
+@let books2 = books() | bookFilter: bookSearchTerm;
 
-@for (book of books; track book.isbn) {
+@for (book of books2; track book.isbn) {
   @if($first){
-    <p>Filtered books: {{ books?.length }}</p>
+    <p>Filtered books: {{ books2?.length }}</p>
   }
   <app-book-card [content]="book" (detailClick)="goToBookDetails($event)" />
 }
