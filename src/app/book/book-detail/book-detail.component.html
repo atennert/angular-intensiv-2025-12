@@ -1,0 +1,12 @@
+@let details = details$ | async;
+
+@if (details) {
+  <h3>{{ details?.title }}</h3>
+  <h4>{{ details?.author }}</h4>
+
+  <p class="abstract">{{ details?.abstract }}</p>
+} @else if (details === null) {
+  <p>Lade Buchdetails...</p>
+} @else {
+  <p>Das Buch ist nicht verfügbar.</p>
+}
