@@ -1,12 +1,14 @@
 import { Routes } from '@angular/router';
 import { AboutComponent } from './about/about.component';
-import { BookComponent } from './book/book/book.component';
-import { BookDetailComponent } from './book/book-detail/book-detail.component';
+import { isUserAuthenticatedGuard } from './auth/is-user-authenticated.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/about', pathMatch: 'full' },
   { path: 'about', component: AboutComponent },
-  { path: 'books', component: BookComponent },
-  { path: 'books/detail/:isbn', component: BookDetailComponent },
+  {
+    path: 'books',
+    loadChildren: () => import('./book/book.routes').then(m => m.bookRoutes),
+    canMatch: [isUserAuthenticatedGuard]
+  },
   { path: '**', redirectTo: '/about', pathMatch: 'full' }
 ];
