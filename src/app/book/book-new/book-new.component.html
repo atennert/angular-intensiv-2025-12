@@ -1,0 +1,28 @@
+<form class="form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="field">
+    <label for="isbn">ISBN</label>
+    <input id="isbn" type="text" formControlName="isbn">
+  </div>
+
+  <div class="field">
+    <label for="author">Author</label>
+    <input id="author" type="text" formControlName="author">
+  </div>
+
+  <div class="field">
+    <label for="title">Title</label>
+    <input id="title" type="text" formControlName="title">
+  </div>
+
+  <div class="field">
+    <label for="subtitle">Subtitle</label>
+    <input id="subtitle" type="text" formControlName="subtitle">
+  </div>
+
+  <div class="field">
+    <label for="abstract">Abstract</label>
+    <textarea id="abstract" formControlName="abstract"></textarea>
+  </div>
+
+  <button type="submit">Save</button>
+</form>

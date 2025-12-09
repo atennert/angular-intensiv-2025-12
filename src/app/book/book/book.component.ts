@@ -5,10 +5,11 @@ import { BookFilterPipe } from '../book-filter/book-filter.pipe';
 import { BookApiService } from '../book-api.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-book',
-  imports: [BookCardComponent, BookFilterPipe],
+  imports: [BookCardComponent, BookFilterPipe, RouterLink],
   templateUrl: './book.component.html',
   styleUrl: './book.component.scss'
 })

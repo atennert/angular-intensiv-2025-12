@@ -1,3 +1,5 @@
+<p><a [routerLink]="['new']">Create new book</a></p>
+
 <input type="text" (input)="updateBookSearchTerm($event)" placeholder="Search for a book..."/>
 
 @let books2 = books() | bookFilter: bookSearchTerm;

@@ -1,0 +1,15 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 500px;
+
+  button {
+    align-self: flex-end;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}

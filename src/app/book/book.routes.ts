@@ -9,5 +9,9 @@ export const bookRoutes: Routes = [
     loadComponent: () =>
       import('./book-detail/book-detail.component').then(m => m.BookDetailComponent),
     canDeactivate: [confirmLeaveGuard]
+  },
+  {
+    path: 'new',
+    loadComponent: () => import('./book-new/book-new.component').then(m => m.BookNewComponent)
   }
 ];
