@@ -1,9 +1,9 @@
-import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, inject, input } from '@angular/core';
 import { BookApiService } from '../book-api.service';
 import { catchError, Observable, of, switchMap } from 'rxjs';
 import { Book } from '../book';
 import { AsyncPipe } from '@angular/common';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-book-detail',
@@ -12,11 +12,11 @@ import { AsyncPipe } from '@angular/common';
   styleUrl: './book-detail.component.scss'
 })
 export class BookDetailComponent {
-  readonly route = inject(ActivatedRoute);
   readonly bookApi = inject(BookApiService);
+  readonly isbn = input.required<string>();
 
-  readonly details$: Observable<Book | undefined> = this.route.params.pipe(
-    switchMap(params => this.bookApi.getBookByIsbn$(params['isbn'])),
+  readonly details$: Observable<Book | undefined> = toObservable(this.isbn).pipe(
+    switchMap(isbn => this.bookApi.getBookByIsbn$(isbn)),
     catchError(err => {
       console.error(err);
       return of(undefined);
