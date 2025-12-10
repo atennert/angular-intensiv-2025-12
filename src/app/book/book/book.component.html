@@ -2,7 +2,7 @@
 
 <input type="text" (input)="updateBookSearchTerm($event)" placeholder="Search for a book..."/>
 
-@if (books()) {
+@if (isLoading()) {
   @let books2 = books() | bookFilter: bookSearchTerm;
 
   @for (book of books2; track book.isbn) {

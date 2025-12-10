@@ -1,11 +1,9 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { Book } from '../book';
 import { BookCardComponent } from '../book-card/book-card.component';
 import { BookFilterPipe } from '../book-filter/book-filter.pipe';
-import { BookApiService } from '../book-api.service';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { catchError, of } from 'rxjs';
 import { RouterLink } from '@angular/router';
+import { BookStore } from '../book.store';
 
 @Component({
   selector: 'app-book',
@@ -13,18 +11,16 @@ import { RouterLink } from '@angular/router';
   templateUrl: './book.component.html',
   styleUrl: './book.component.scss'
 })
-export class BookComponent {
-  private readonly bookApi = inject(BookApiService);
-  private readonly books$ = this.bookApi.getAll$().pipe(
-    catchError(err => {
-      if (err instanceof Error) {
-        console.error(err.message);
-      }
-      return of([] as Book[]);
-    })
-  );
-  readonly books = toSignal(this.books$);
+export class BookComponent implements OnInit {
+  private readonly bookStore = inject(BookStore);
+
+  readonly books = this.bookStore.books;
+  readonly isLoading = this.bookStore.isLoading;
   bookSearchTerm = '';
+
+  ngOnInit(): void {
+    this.bookStore.getAll();
+  }
 
   private readonly logBookCount = effect(() => {
     const books = this.books();
