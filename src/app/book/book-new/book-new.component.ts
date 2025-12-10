@@ -6,6 +6,7 @@ import { Book } from '../book';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { switchMap } from 'rxjs';
+import { validAuthorName } from '../author.validator';
 
 @Component({
   selector: 'app-book-new',
@@ -21,7 +22,7 @@ export class BookNewComponent {
 
   form: FormGroup<BookForm> = this.formBuilder.group({
     isbn: ['', [Validators.required], []],
-    author: ['', [Validators.required]],
+    author: ['', [Validators.required, validAuthorName()]],
     title: ['', [Validators.required]],
     subtitle: [''],
     abstract: ['']
