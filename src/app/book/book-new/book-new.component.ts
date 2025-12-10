@@ -3,10 +3,10 @@ import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } fr
 import { BookForm } from '../book-form';
 import { BookApiService } from '../book-api.service';
 import { Book } from '../book';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { switchMap } from 'rxjs';
 import { validAuthorName } from '../author.validator';
+import { switchMap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-book-new',
@@ -22,15 +22,32 @@ export class BookNewComponent {
 
   form: FormGroup<BookForm> = this.formBuilder.group({
     isbn: ['', [Validators.required], []],
-    author: ['', [Validators.required, validAuthorName()]],
+    authors: this.formBuilder.array([['', [Validators.required, validAuthorName()]]]),
     title: ['', [Validators.required]],
     subtitle: [''],
     abstract: ['']
   });
 
+  get authors(): BookForm['authors'] {
+    return this.form.controls.authors;
+  }
+
+  addAuthor() {
+    const author = this.formBuilder.control('', [Validators.required, validAuthorName()]);
+    this.authors.controls.push(author);
+  }
+
+  deleteAuthor(index: number) {
+    this.authors.removeAt(index);
+  }
+
   protected submit() {
+    const book = {
+      ...this.form.value,
+      author: this.authors.controls.map(c => c.value).join(', ')
+    } as Book;
     this.bookApi
-      .create$(this.form.value as Book)
+      .create$(book)
       .pipe(
         switchMap(book => this.router.navigate(['/books', 'detail', book.isbn])),
         takeUntilDestroyed(this.destroyRef)

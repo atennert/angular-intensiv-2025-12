@@ -10,11 +10,20 @@
   </div>
 
   <div class="book-new__form-field">
-    <label for="author">Author</label>
-    <input id="author" type="text" formControlName="author">
-    @if (form.get('author')?.hasError('required') && form.get('author')?.dirty) {
-      <small>Please insert an author.</small>
-    }
+    <div>
+      <button (click)="addAuthor()" type="button">Add author</button>
+    </div>
+    <ng-container formArrayName="authors">
+      @for(author of authors.controls; track $index){
+        <label class="form-field">
+          <span>Author</span>
+          <input [formControl]="author" />
+        </label>
+        <button (click)="deleteAuthor($index)" type="button">
+          Remove Author
+        </button>
+      }
+    </ng-container>
   </div>
 
   <div class="book-new__form-field">
