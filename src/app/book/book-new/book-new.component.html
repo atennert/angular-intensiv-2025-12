@@ -1,28 +1,39 @@
-<form class="form" [formGroup]="form" (ngSubmit)="submit()">
-  <div class="field">
+<form class="book-new__form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="book-new__form-field">
     <label for="isbn">ISBN</label>
-    <input id="isbn" type="text" formControlName="isbn">
+    <input
+      id="isbn"
+      type="text"
+      formControlName="isbn"
+      [class.book-new__form-field--error]="form.get('isbn')?.invalid && form.get('isbn')?.dirty"
+    >
   </div>
 
-  <div class="field">
+  <div class="book-new__form-field">
     <label for="author">Author</label>
     <input id="author" type="text" formControlName="author">
+    @if (form.get('author')?.hasError('required') && form.get('author')?.dirty) {
+      <small>Please insert an author.</small>
+    }
   </div>
 
-  <div class="field">
+  <div class="book-new__form-field">
     <label for="title">Title</label>
     <input id="title" type="text" formControlName="title">
+    @if (form.hasError('required', 'title') && form.get('title')?.touched) {
+      <small>Please insert a title.</small>
+    }
   </div>
 
-  <div class="field">
+  <div class="book-new__form-field">
     <label for="subtitle">Subtitle</label>
     <input id="subtitle" type="text" formControlName="subtitle">
   </div>
 
-  <div class="field">
+  <div class="book-new__form-field">
     <label for="abstract">Abstract</label>
     <textarea id="abstract" formControlName="abstract"></textarea>
   </div>
 
-  <button type="submit">Save</button>
+  <button type="submit" [disabled]="form.invalid">Save</button>
 </form>

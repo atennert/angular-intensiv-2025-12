@@ -2,11 +2,17 @@
 
 <input type="text" (input)="updateBookSearchTerm($event)" placeholder="Search for a book..."/>
 
-@let books2 = books() | bookFilter: bookSearchTerm;
+@if (books()) {
+  @let books2 = books() | bookFilter: bookSearchTerm;
 
-@for (book of books2; track book.isbn) {
-  @if($first){
-    <p>Filtered books: {{ books2?.length }}</p>
+  @for (book of books2; track book.isbn) {
+    @if($first){
+      <p>Filtered books: {{ books2?.length }}</p>
+    }
+    <app-book-card [content]="book" (detailClick)="goToBookDetails($event)" />
+  } @empty {
+    <p>No books found.</p>
   }
-  <app-book-card [content]="book" (detailClick)="goToBookDetails($event)" />
+} @else {
+  <p>Loading books...</p>
 }

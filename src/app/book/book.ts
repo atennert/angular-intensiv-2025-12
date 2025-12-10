@@ -3,4 +3,5 @@ export interface Book {
   author: string;
   abstract: string;
   isbn: string;
+  subtitle: string;
 }

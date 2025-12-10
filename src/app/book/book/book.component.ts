@@ -23,11 +23,14 @@ export class BookComponent {
       return of([] as Book[]);
     })
   );
-  readonly books = toSignal(this.books$, { initialValue: [] });
+  readonly books = toSignal(this.books$);
   bookSearchTerm = '';
 
   private readonly logBookCount = effect(() => {
-    console.log(`Total books loaded: ${this.books().length}`);
+    const books = this.books();
+    if (books) {
+      console.log(`Total books loaded: ${books.length}`);
+    }
   });
 
   protected goToBookDetails(book: Book) {

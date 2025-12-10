@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { BookForm } from '../book-form';
 
 @Component({
   selector: 'app-book-new',
@@ -8,12 +9,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './book-new.component.scss'
 })
 export class BookNewComponent {
-  private readonly formBuilder = inject(FormBuilder);
+  private readonly formBuilder = inject(NonNullableFormBuilder);
 
-  form: FormGroup = this.formBuilder.group({
-    isbn: [''],
-    author: [''],
-    title: [''],
+  form: FormGroup<BookForm> = this.formBuilder.group({
+    isbn: ['', [Validators.required], []],
+    author: ['', [Validators.required]],
+    title: ['', [Validators.required]],
     subtitle: [''],
     abstract: ['']
   });
